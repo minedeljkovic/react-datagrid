@@ -357,7 +357,7 @@ module.exports = React.createClass({
 		var textStyle = {display: 'inline-block', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}
 
 		return <div style={normalize({display: 'flex', justifyContent: 'flex-end', alignItems: 'center'})}>
-			<span style={textStyle}>Displaying {start} - {end} of {props.dataSourceCount || 1}.</span>
+			<span style={textStyle}>Prikazuje se {start} - {end} od {props.dataSourceCount || 1}.</span>
 			{sep}{refreshIcon}
 		</div>
 	},
@@ -365,7 +365,7 @@ module.exports = React.createClass({
 	renderPageSize: function(props) {
 		if (props.showPageSize){
 			return <div>
-				Page size {this.renderSelect(props)}
+				Redova po strani {this.renderSelect(props)}
 			</div>
 		}
 	},
@@ -397,7 +397,7 @@ module.exports = React.createClass({
 				{this.icon('gotoPrev', props)}
 
 				{sep}
-				Page {this.renderInput(props)} of{WHITESPACE}{props.maxPage}.
+				Strana {this.renderInput(props)} od{WHITESPACE}{props.maxPage}.
 				{sep}
 				{this.icon('gotoNext', props)}
 				{this.icon('gotoLast', props)}
