@@ -380,11 +380,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	        }
 
-	        setTimeout((function () {
+	        setTimeout(function () {
 	            //since menu is hidden on click on window,
 	            //show it in a timeout, after the click event has reached the window
 	            this.setState(state);
-	        }).bind(this), 0);
+	        }.bind(this), 0);
 	    },
 
 	    prepareHeader: function prepareHeader(props, state) {
@@ -941,7 +941,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    defaultLoading: true
 	                });
 
-	                var errorFn = (function (err) {
+	                var errorFn = function (err) {
 	                    if (props.onDataSourceError) {
 	                        props.onDataSourceError(err);
 	                    }
@@ -949,13 +949,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    this.setState({
 	                        defaultLoading: false
 	                    });
-	                }).bind(this);
+	                }.bind(this);
 
 	                var noCatchFn = dataSource['catch'] ? null : errorFn;
 
 	                dataSource = dataSource.then(function (response) {
 	                    return response && typeof response.json == 'function' ? response.json() : response;
-	                }).then((function (json) {
+	                }).then(function (json) {
 
 	                    if (props.onDataSourceSuccess) {
 	                        props.onDataSourceSuccess(json);
@@ -988,7 +988,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    }
 
 	                    this.setState(newState);
-	                }).bind(this), noCatchFn);
+	                }.bind(this), noCatchFn);
 
 	                if (dataSource['catch']) {
 	                    dataSource['catch'](errorFn);
@@ -1148,7 +1148,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        if (horizScrollbar && this.state.scrollLeft) {
 
-	            setTimeout((function () {
+	            setTimeout(function () {
 	                //FF needs this, since it does not trigger scroll event when scrollbar dissapears
 	                //so we might end up with grid content not visible (to the left)
 
@@ -1156,7 +1156,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (domNode && !domNode.scrollLeft) {
 	                    this.handleScrollLeft(0);
 	                }
-	            }).bind(this), 1);
+	            }.bind(this), 1);
 	        }
 
 	        var props = this.props;
@@ -2158,7 +2158,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * will remain to ensure logic does not differ in production.
 	 */
 
-	var invariant = function (condition, format, a, b, c, d, e, f) {
+	function invariant(condition, format, a, b, c, d, e, f) {
 	  if (process.env.NODE_ENV !== 'production') {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
@@ -2172,15 +2172,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } else {
 	      var args = [a, b, c, d, e, f];
 	      var argIndex = 0;
-	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
+	      error = new Error(format.replace(/%s/g, function () {
 	        return args[argIndex++];
 	      }));
+	      error.name = 'Invariant Violation';
 	    }
 
 	    error.framesToPop = 1; // we don't care about invariant's own frame
 	    throw error;
 	  }
-	};
+	}
 
 	module.exports = invariant;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
@@ -10399,6 +10400,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	var EventInterface = {
 	  type: null,
+	  target: null,
 	  // currentTarget is set when dispatching; no use in copying it here
 	  currentTarget: emptyFunction.thatReturnsNull,
 	  eventPhase: null,
@@ -10432,8 +10434,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.dispatchConfig = dispatchConfig;
 	  this.dispatchMarker = dispatchMarker;
 	  this.nativeEvent = nativeEvent;
-	  this.target = nativeEventTarget;
-	  this.currentTarget = nativeEventTarget;
 
 	  var Interface = this.constructor.Interface;
 	  for (var propName in Interface) {
@@ -10444,7 +10444,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (normalize) {
 	      this[propName] = normalize(nativeEvent);
 	    } else {
-	      this[propName] = nativeEvent[propName];
+	      if (propName === 'target') {
+	        this.target = nativeEventTarget;
+	      } else {
+	        this[propName] = nativeEvent[propName];
+	      }
 	    }
 	  }
 
@@ -11607,8 +11611,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    // autoCapitalize and autoCorrect are supported in Mobile Safari for
 	    // keyboard hints.
-	    autoCapitalize: null,
-	    autoCorrect: null,
+	    autoCapitalize: MUST_USE_ATTRIBUTE,
+	    autoCorrect: MUST_USE_ATTRIBUTE,
 	    // autoSave allows WebKit/Blink to persist values of input fields on page reloads
 	    autoSave: null,
 	    // color is for Safari mask-icon link
@@ -11639,9 +11643,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    httpEquiv: 'http-equiv'
 	  },
 	  DOMPropertyNames: {
-	    autoCapitalize: 'autocapitalize',
 	    autoComplete: 'autocomplete',
-	    autoCorrect: 'autocorrect',
 	    autoFocus: 'autofocus',
 	    autoPlay: 'autoplay',
 	    autoSave: 'autosave',
@@ -14295,7 +14297,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    });
 
-	    nativeProps.children = content;
+	    if (content) {
+	      nativeProps.children = content;
+	    }
+
 	    return nativeProps;
 	  }
 
@@ -14720,7 +14725,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var value = LinkedValueUtils.getValue(props);
 
 	    if (value != null) {
-	      updateOptions(this, props, value);
+	      updateOptions(this, Boolean(props.multiple), value);
 	    }
 	  }
 	}
@@ -17755,11 +17760,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @typechecks
 	 */
 
+	/* eslint-disable fb-www/typeof-undefined */
+
 	/**
 	 * Same as document.activeElement but wraps in a try-catch block. In IE it is
 	 * not safe to call document.activeElement if there is nothing focused.
 	 *
-	 * The activeElement will be null only if the document or document body is not yet defined.
+	 * The activeElement will be null only if the document or document body is not
+	 * yet defined.
 	 */
 	'use strict';
 
@@ -17767,7 +17775,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (typeof document === 'undefined') {
 	    return null;
 	  }
-
 	  try {
 	    return document.activeElement || document.body;
 	  } catch (e) {
@@ -19507,7 +19514,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  'setValueForProperty': 'update attribute',
 	  'setValueForAttribute': 'update attribute',
 	  'deleteValueForProperty': 'remove attribute',
-	  'dangerouslyReplaceNodeWithMarkupByID': 'replace'
+	  'setValueForStyles': 'update styles',
+	  'replaceNodeWithMarkup': 'replace',
+	  'updateTextContent': 'set textContent'
 	};
 
 	function getTotalTime(measurements) {
@@ -19699,18 +19708,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	var performance = __webpack_require__(144);
-	var curPerformance = performance;
+
+	var performanceNow;
 
 	/**
 	 * Detect if we can use `window.performance.now()` and gracefully fallback to
 	 * `Date.now()` if it doesn't exist. We need to support Firefox < 15 for now
 	 * because of Facebook's testing infrastructure.
 	 */
-	if (!curPerformance || !curPerformance.now) {
-	  curPerformance = Date;
+	if (performance.now) {
+	  performanceNow = function () {
+	    return performance.now();
+	  };
+	} else {
+	  performanceNow = function () {
+	    return Date.now();
+	  };
 	}
-
-	var performanceNow = curPerformance.now.bind(curPerformance);
 
 	module.exports = performanceNow;
 
@@ -19759,7 +19773,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	module.exports = '0.14.3';
+	module.exports = '0.14.7';
 
 /***/ },
 /* 146 */
@@ -19797,7 +19811,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
 	 *            See https://raw.githubusercontent.com/jakearchibald/es6-promise/master/LICENSE
-	 * @version   3.0.2
+	 * @version   3.1.2
 	 */
 
 	(function() {
@@ -19825,7 +19839,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var lib$es6$promise$utils$$isArray = lib$es6$promise$utils$$_isArray;
 	    var lib$es6$promise$asap$$len = 0;
-	    var lib$es6$promise$asap$$toString = {}.toString;
 	    var lib$es6$promise$asap$$vertxNext;
 	    var lib$es6$promise$asap$$customSchedulerFn;
 
@@ -19944,6 +19957,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } else {
 	      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useSetTimeout();
 	    }
+	    function lib$es6$promise$then$$then(onFulfillment, onRejection) {
+	      var parent = this;
+	      var state = parent._state;
+
+	      if (state === lib$es6$promise$$internal$$FULFILLED && !onFulfillment || state === lib$es6$promise$$internal$$REJECTED && !onRejection) {
+	        return this;
+	      }
+
+	      var child = new this.constructor(lib$es6$promise$$internal$$noop);
+	      var result = parent._result;
+
+	      if (state) {
+	        var callback = arguments[state - 1];
+	        lib$es6$promise$asap$$asap(function(){
+	          lib$es6$promise$$internal$$invokeCallback(state, child, callback, result);
+	        });
+	      } else {
+	        lib$es6$promise$$internal$$subscribe(parent, child, onFulfillment, onRejection);
+	      }
+
+	      return child;
+	    }
+	    var lib$es6$promise$then$$default = lib$es6$promise$then$$then;
+	    function lib$es6$promise$promise$resolve$$resolve(object) {
+	      /*jshint validthis:true */
+	      var Constructor = this;
+
+	      if (object && typeof object === 'object' && object.constructor === Constructor) {
+	        return object;
+	      }
+
+	      var promise = new Constructor(lib$es6$promise$$internal$$noop);
+	      lib$es6$promise$$internal$$resolve(promise, object);
+	      return promise;
+	    }
+	    var lib$es6$promise$promise$resolve$$default = lib$es6$promise$promise$resolve$$resolve;
 
 	    function lib$es6$promise$$internal$$noop() {}
 
@@ -20017,12 +20066,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 
-	    function lib$es6$promise$$internal$$handleMaybeThenable(promise, maybeThenable) {
-	      if (maybeThenable.constructor === promise.constructor) {
+	    function lib$es6$promise$$internal$$handleMaybeThenable(promise, maybeThenable, then) {
+	      if (maybeThenable.constructor === promise.constructor &&
+	          then === lib$es6$promise$then$$default &&
+	          constructor.resolve === lib$es6$promise$promise$resolve$$default) {
 	        lib$es6$promise$$internal$$handleOwnThenable(promise, maybeThenable);
 	      } else {
-	        var then = lib$es6$promise$$internal$$getThen(maybeThenable);
-
 	        if (then === lib$es6$promise$$internal$$GET_THEN_ERROR) {
 	          lib$es6$promise$$internal$$reject(promise, lib$es6$promise$$internal$$GET_THEN_ERROR.error);
 	        } else if (then === undefined) {
@@ -20039,7 +20088,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (promise === value) {
 	        lib$es6$promise$$internal$$reject(promise, lib$es6$promise$$internal$$selfFulfillment());
 	      } else if (lib$es6$promise$utils$$objectOrFunction(value)) {
-	        lib$es6$promise$$internal$$handleMaybeThenable(promise, value);
+	        lib$es6$promise$$internal$$handleMaybeThenable(promise, value, lib$es6$promise$$internal$$getThen(value));
 	      } else {
 	        lib$es6$promise$$internal$$fulfill(promise, value);
 	      }
@@ -20174,104 +20223,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 
-	    function lib$es6$promise$enumerator$$Enumerator(Constructor, input) {
-	      var enumerator = this;
-
-	      enumerator._instanceConstructor = Constructor;
-	      enumerator.promise = new Constructor(lib$es6$promise$$internal$$noop);
-
-	      if (enumerator._validateInput(input)) {
-	        enumerator._input     = input;
-	        enumerator.length     = input.length;
-	        enumerator._remaining = input.length;
-
-	        enumerator._init();
-
-	        if (enumerator.length === 0) {
-	          lib$es6$promise$$internal$$fulfill(enumerator.promise, enumerator._result);
-	        } else {
-	          enumerator.length = enumerator.length || 0;
-	          enumerator._enumerate();
-	          if (enumerator._remaining === 0) {
-	            lib$es6$promise$$internal$$fulfill(enumerator.promise, enumerator._result);
-	          }
-	        }
-	      } else {
-	        lib$es6$promise$$internal$$reject(enumerator.promise, enumerator._validationError());
-	      }
-	    }
-
-	    lib$es6$promise$enumerator$$Enumerator.prototype._validateInput = function(input) {
-	      return lib$es6$promise$utils$$isArray(input);
-	    };
-
-	    lib$es6$promise$enumerator$$Enumerator.prototype._validationError = function() {
-	      return new Error('Array Methods must be provided an Array');
-	    };
-
-	    lib$es6$promise$enumerator$$Enumerator.prototype._init = function() {
-	      this._result = new Array(this.length);
-	    };
-
-	    var lib$es6$promise$enumerator$$default = lib$es6$promise$enumerator$$Enumerator;
-
-	    lib$es6$promise$enumerator$$Enumerator.prototype._enumerate = function() {
-	      var enumerator = this;
-
-	      var length  = enumerator.length;
-	      var promise = enumerator.promise;
-	      var input   = enumerator._input;
-
-	      for (var i = 0; promise._state === lib$es6$promise$$internal$$PENDING && i < length; i++) {
-	        enumerator._eachEntry(input[i], i);
-	      }
-	    };
-
-	    lib$es6$promise$enumerator$$Enumerator.prototype._eachEntry = function(entry, i) {
-	      var enumerator = this;
-	      var c = enumerator._instanceConstructor;
-
-	      if (lib$es6$promise$utils$$isMaybeThenable(entry)) {
-	        if (entry.constructor === c && entry._state !== lib$es6$promise$$internal$$PENDING) {
-	          entry._onerror = null;
-	          enumerator._settledAt(entry._state, i, entry._result);
-	        } else {
-	          enumerator._willSettleAt(c.resolve(entry), i);
-	        }
-	      } else {
-	        enumerator._remaining--;
-	        enumerator._result[i] = entry;
-	      }
-	    };
-
-	    lib$es6$promise$enumerator$$Enumerator.prototype._settledAt = function(state, i, value) {
-	      var enumerator = this;
-	      var promise = enumerator.promise;
-
-	      if (promise._state === lib$es6$promise$$internal$$PENDING) {
-	        enumerator._remaining--;
-
-	        if (state === lib$es6$promise$$internal$$REJECTED) {
-	          lib$es6$promise$$internal$$reject(promise, value);
-	        } else {
-	          enumerator._result[i] = value;
-	        }
-	      }
-
-	      if (enumerator._remaining === 0) {
-	        lib$es6$promise$$internal$$fulfill(promise, enumerator._result);
-	      }
-	    };
-
-	    lib$es6$promise$enumerator$$Enumerator.prototype._willSettleAt = function(promise, i) {
-	      var enumerator = this;
-
-	      lib$es6$promise$$internal$$subscribe(promise, undefined, function(value) {
-	        enumerator._settledAt(lib$es6$promise$$internal$$FULFILLED, i, value);
-	      }, function(reason) {
-	        enumerator._settledAt(lib$es6$promise$$internal$$REJECTED, i, reason);
-	      });
-	    };
 	    function lib$es6$promise$promise$all$$all(entries) {
 	      return new lib$es6$promise$enumerator$$default(this, entries).promise;
 	    }
@@ -20304,19 +20255,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return promise;
 	    }
 	    var lib$es6$promise$promise$race$$default = lib$es6$promise$promise$race$$race;
-	    function lib$es6$promise$promise$resolve$$resolve(object) {
-	      /*jshint validthis:true */
-	      var Constructor = this;
-
-	      if (object && typeof object === 'object' && object.constructor === Constructor) {
-	        return object;
-	      }
-
-	      var promise = new Constructor(lib$es6$promise$$internal$$noop);
-	      lib$es6$promise$$internal$$resolve(promise, object);
-	      return promise;
-	    }
-	    var lib$es6$promise$promise$resolve$$default = lib$es6$promise$promise$resolve$$resolve;
 	    function lib$es6$promise$promise$reject$$reject(reason) {
 	      /*jshint validthis:true */
 	      var Constructor = this;
@@ -20447,15 +20385,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this._subscribers = [];
 
 	      if (lib$es6$promise$$internal$$noop !== resolver) {
-	        if (!lib$es6$promise$utils$$isFunction(resolver)) {
-	          lib$es6$promise$promise$$needsResolver();
-	        }
-
-	        if (!(this instanceof lib$es6$promise$promise$$Promise)) {
-	          lib$es6$promise$promise$$needsNew();
-	        }
-
-	        lib$es6$promise$$internal$$initializePromise(this, resolver);
+	        typeof resolver !== 'function' && lib$es6$promise$promise$$needsResolver();
+	        this instanceof lib$es6$promise$promise$$Promise ? lib$es6$promise$$internal$$initializePromise(this, resolver) : lib$es6$promise$promise$$needsNew();
 	      }
 	    }
 
@@ -20663,28 +20594,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      Useful for tooling.
 	      @return {Promise}
 	    */
-	      then: function(onFulfillment, onRejection) {
-	        var parent = this;
-	        var state = parent._state;
-
-	        if (state === lib$es6$promise$$internal$$FULFILLED && !onFulfillment || state === lib$es6$promise$$internal$$REJECTED && !onRejection) {
-	          return this;
-	        }
-
-	        var child = new this.constructor(lib$es6$promise$$internal$$noop);
-	        var result = parent._result;
-
-	        if (state) {
-	          var callback = arguments[state - 1];
-	          lib$es6$promise$asap$$asap(function(){
-	            lib$es6$promise$$internal$$invokeCallback(state, child, callback, result);
-	          });
-	        } else {
-	          lib$es6$promise$$internal$$subscribe(parent, child, onFulfillment, onRejection);
-	        }
-
-	        return child;
-	      },
+	      then: lib$es6$promise$then$$default,
 
 	    /**
 	      `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
@@ -20716,6 +20626,97 @@ return /******/ (function(modules) { // webpackBootstrap
 	      'catch': function(onRejection) {
 	        return this.then(null, onRejection);
 	      }
+	    };
+	    var lib$es6$promise$enumerator$$default = lib$es6$promise$enumerator$$Enumerator;
+	    function lib$es6$promise$enumerator$$Enumerator(Constructor, input) {
+	      this._instanceConstructor = Constructor;
+	      this.promise = new Constructor(lib$es6$promise$$internal$$noop);
+
+	      if (Array.isArray(input)) {
+	        this._input     = input;
+	        this.length     = input.length;
+	        this._remaining = input.length;
+
+	        this._result = new Array(this.length);
+
+	        if (this.length === 0) {
+	          lib$es6$promise$$internal$$fulfill(this.promise, this._result);
+	        } else {
+	          this.length = this.length || 0;
+	          this._enumerate();
+	          if (this._remaining === 0) {
+	            lib$es6$promise$$internal$$fulfill(this.promise, this._result);
+	          }
+	        }
+	      } else {
+	        lib$es6$promise$$internal$$reject(this.promise, this._validationError());
+	      }
+	    }
+
+	    lib$es6$promise$enumerator$$Enumerator.prototype._validationError = function() {
+	      return new Error('Array Methods must be provided an Array');
+	    };
+
+	    lib$es6$promise$enumerator$$Enumerator.prototype._enumerate = function() {
+	      var length  = this.length;
+	      var input   = this._input;
+
+	      for (var i = 0; this._state === lib$es6$promise$$internal$$PENDING && i < length; i++) {
+	        this._eachEntry(input[i], i);
+	      }
+	    };
+
+	    lib$es6$promise$enumerator$$Enumerator.prototype._eachEntry = function(entry, i) {
+	      var c = this._instanceConstructor;
+	      var resolve = c.resolve;
+
+	      if (resolve === lib$es6$promise$promise$resolve$$default) {
+	        var then = lib$es6$promise$$internal$$getThen(entry);
+
+	        if (then === lib$es6$promise$then$$default &&
+	            entry._state !== lib$es6$promise$$internal$$PENDING) {
+	          this._settledAt(entry._state, i, entry._result);
+	        } else if (typeof then !== 'function') {
+	          this._remaining--;
+	          this._result[i] = entry;
+	        } else if (c === lib$es6$promise$promise$$default) {
+	          var promise = new c(lib$es6$promise$$internal$$noop);
+	          lib$es6$promise$$internal$$handleMaybeThenable(promise, entry, then);
+	          this._willSettleAt(promise, i);
+	        } else {
+	          this._willSettleAt(new c(function(resolve) { resolve(entry); }), i);
+	        }
+	      } else {
+	        this._willSettleAt(resolve(entry), i);
+	      }
+	    };
+
+	    lib$es6$promise$enumerator$$Enumerator.prototype._settledAt = function(state, i, value) {
+	      var promise = this.promise;
+
+	      if (promise._state === lib$es6$promise$$internal$$PENDING) {
+	        this._remaining--;
+
+	        if (state === lib$es6$promise$$internal$$REJECTED) {
+	          lib$es6$promise$$internal$$reject(promise, value);
+	        } else {
+	          this._result[i] = value;
+	        }
+	      }
+
+	      if (this._remaining === 0) {
+	        lib$es6$promise$$internal$$fulfill(promise, this._result);
+	      }
+	    };
+
+	    lib$es6$promise$enumerator$$Enumerator.prototype._willSettleAt = function(promise, i) {
+	      var enumerator = this;
+
+	      lib$es6$promise$$internal$$subscribe(promise, undefined, function(value) {
+	        enumerator._settledAt(lib$es6$promise$$internal$$FULFILLED, i, value);
+	      }, function(reason) {
+	        enumerator._settledAt(lib$es6$promise$$internal$$REJECTED, i, reason);
+	      });
 	    };
 	    function lib$es6$promise$polyfill$$polyfill() {
 	      var local;
@@ -22802,8 +22803,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			React.createElement(
 				'g',
 				null,
-				React.createElement('path', { d: 'M55.323,203.641c15.664,0,29.813-9.405,35.872-23.854c25.017-59.604,83.842-101.61,152.42-101.61 c37.797,0,72.449,12.955,100.23,34.442l-21.775,3.371c-7.438,1.153-13.224,7.054-14.232,14.512 c-1.01,7.454,3.008,14.686,9.867,17.768l119.746,53.872c5.249,2.357,11.33,1.904,16.168-1.205 c4.83-3.114,7.764-8.458,7.796-14.208l0.621-131.943c0.042-7.506-4.851-14.144-12.024-16.332 c-7.185-2.188-14.947,0.589-19.104,6.837l-16.505,24.805C370.398,26.778,310.1,0,243.615,0C142.806,0,56.133,61.562,19.167,149.06 c-5.134,12.128-3.84,26.015,3.429,36.987C29.865,197.023,42.152,203.641,55.323,203.641z' }),
-				React.createElement('path', { d: 'M464.635,301.184c-7.27-10.977-19.558-17.594-32.728-17.594c-15.664,0-29.813,9.405-35.872,23.854 c-25.018,59.604-83.843,101.61-152.42,101.61c-37.798,0-72.45-12.955-100.232-34.442l21.776-3.369 c7.437-1.153,13.223-7.055,14.233-14.514c1.009-7.453-3.008-14.686-9.867-17.768L49.779,285.089 c-5.25-2.356-11.33-1.905-16.169,1.205c-4.829,3.114-7.764,8.458-7.795,14.207l-0.622,131.943 c-0.042,7.506,4.85,14.144,12.024,16.332c7.185,2.188,14.948-0.59,19.104-6.839l16.505-24.805 c44.004,43.32,104.303,70.098,170.788,70.098c100.811,0,187.481-61.561,224.446-149.059 C473.197,326.043,471.903,312.157,464.635,301.184z' })
+				React.createElement('path', { d: 'M55.323,203.641c15.664,0,29.813-9.405,35.872-23.854c25.017-59.604,83.842-101.61,152.42-101.61\r c37.797,0,72.449,12.955,100.23,34.442l-21.775,3.371c-7.438,1.153-13.224,7.054-14.232,14.512\r c-1.01,7.454,3.008,14.686,9.867,17.768l119.746,53.872c5.249,2.357,11.33,1.904,16.168-1.205\r c4.83-3.114,7.764-8.458,7.796-14.208l0.621-131.943c0.042-7.506-4.851-14.144-12.024-16.332\r c-7.185-2.188-14.947,0.589-19.104,6.837l-16.505,24.805C370.398,26.778,310.1,0,243.615,0C142.806,0,56.133,61.562,19.167,149.06\r c-5.134,12.128-3.84,26.015,3.429,36.987C29.865,197.023,42.152,203.641,55.323,203.641z' }),
+				React.createElement('path', { d: 'M464.635,301.184c-7.27-10.977-19.558-17.594-32.728-17.594c-15.664,0-29.813,9.405-35.872,23.854\r c-25.018,59.604-83.843,101.61-152.42,101.61c-37.798,0-72.45-12.955-100.232-34.442l21.776-3.369\r c7.437-1.153,13.223-7.055,14.233-14.514c1.009-7.453-3.008-14.686-9.867-17.768L49.779,285.089\r c-5.25-2.356-11.33-1.905-16.169,1.205c-4.829,3.114-7.764,8.458-7.795,14.207l-0.622,131.943\r c-0.042,7.506,4.85,14.144,12.024,16.332c7.185,2.188,14.948-0.59,19.104-6.839l16.505-24.805\r c44.004,43.32,104.303,70.098,170.788,70.098c100.811,0,187.481-61.561,224.446-149.059\r C473.197,326.043,471.903,312.157,464.635,301.184z' })
 			)
 		);
 	}
@@ -22994,11 +22995,11 @@ return /******/ (function(modules) { // webpackBootstrap
 			var page = this.props.page;
 			this.setState({
 				inputFocused: true
-			}, (function () {
+			}, function () {
 
 				var domNode = (0, _reactDom.findDOMNode)(this.refs.input);
 				domNode.value = page;
-			}).bind(this));
+			}.bind(this));
 		},
 
 		onPageSizeChange: function onPageSizeChange(event) {
@@ -23103,11 +23104,11 @@ return /******/ (function(modules) { // webpackBootstrap
 				React.createElement(
 					'span',
 					{ style: textStyle },
-					'Displaying ',
+					'Prikazuje se ',
 					start,
 					' - ',
 					end,
-					' of ',
+					' od ',
 					props.dataSourceCount || 1,
 					'.'
 				),
@@ -23121,7 +23122,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				return React.createElement(
 					'div',
 					null,
-					'Page size ',
+					'Redova po strani ',
 					this.renderSelect(props)
 				);
 			}
@@ -23157,9 +23158,9 @@ return /******/ (function(modules) { // webpackBootstrap
 					this.icon('gotoFirst', props),
 					this.icon('gotoPrev', props),
 					sep,
-					'Page ',
+					'Strana ',
 					this.renderInput(props),
-					' of',
+					' od',
 					WHITESPACE,
 					props.maxPage,
 					'.',
@@ -25998,6 +25999,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'fixHorizontalScrollbar',
 	    value: function fixHorizontalScrollbar() {
+	      if (this.isUnmounted) return;
 
 	      var thisNode = (0, _reactDom.findDOMNode)(this);
 
@@ -26031,6 +26033,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      delete this.horizontalScrollerNode;
 	      delete this.horizontalScrollbarNode;
 	      delete this.verticalScrollbarNode;
+
+	      this.isUnmounted = true;
 	    }
 
 	    ////////////////////////////////////////////////
@@ -27513,7 +27517,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    showMenu: function showMenu(column, event) {
 
-	        var menuItem = (function (column) {
+	        var menuItem = function (column) {
 	            var visibility = this.props.columnVisibility;
 
 	            var visible = column.visible;
@@ -27532,7 +27536,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                label: column.title,
 	                fn: this.toggleColumn.bind(this, column)
 	            };
-	        }).bind(this);
+	        }.bind(this);
 
 	        function menu(eventTarget, props) {
 
@@ -30123,6 +30127,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	/* eslint-disable no-proto */
 
+	'use strict'
+
 	var base64 = __webpack_require__(271)
 	var ieee754 = __webpack_require__(272)
 	var isArray = __webpack_require__(273)
@@ -30205,8 +30211,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return new Buffer(arg)
 	  }
 
-	  this.length = 0
-	  this.parent = undefined
+	  if (!Buffer.TYPED_ARRAY_SUPPORT) {
+	    this.length = 0
+	    this.parent = undefined
+	  }
 
 	  // Common case.
 	  if (typeof arg === 'number') {
@@ -30337,6 +30345,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (Buffer.TYPED_ARRAY_SUPPORT) {
 	  Buffer.prototype.__proto__ = Uint8Array.prototype
 	  Buffer.__proto__ = Uint8Array
+	} else {
+	  // pre-set for values that may exist in the future
+	  Buffer.prototype.length = undefined
+	  Buffer.prototype.parent = undefined
 	}
 
 	function allocate (that, length) {
@@ -30486,10 +30498,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}
 	Buffer.byteLength = byteLength
-
-	// pre-set for values that may exist in the future
-	Buffer.prototype.length = undefined
-	Buffer.prototype.parent = undefined
 
 	function slowToString (encoding, start, end) {
 	  var loweredCase = false
@@ -32549,7 +32557,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var assign = __webpack_require__(151);
 	var React = __webpack_require__(147);
@@ -32995,7 +33003,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var assign = __webpack_require__(151);
 	var getSelected = __webpack_require__(291);
@@ -33228,9 +33236,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	module.exports = function (props, state) {
-	                    var selected = props.selected == null ? state.defaultSelected : props.selected;
+	    var selected = props.selected == null ? state.defaultSelected : props.selected;
 
-	                    return selected;
+	    return selected;
 	};
 
 /***/ },
@@ -33435,63 +33443,63 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
 	if (!global.fetch && global.window) {
-	    __webpack_require__(294);
+	        __webpack_require__(294);
 	}
 
 	var fetch = global.fetch;
 
 	module.exports = function () {
-	    return {
-	        fetch: fetch,
-	        defaultPageSize: 20,
-	        defaultPage: 1,
+	        return {
+	                fetch: fetch,
+	                defaultPageSize: 20,
+	                defaultPage: 1,
 
-	        appendDataSourceQueryParams: true,
-	        pagination: null,
-	        // virtualPagination: false,
+	                appendDataSourceQueryParams: true,
+	                pagination: null,
+	                // virtualPagination: false,
 
-	        loading: null,
-	        showLoadMask: true,
-	        columnMinWidth: 50,
-	        cellPadding: '0px 5px',
-	        headerPadding: '10px 5px',
-	        filterIconColor: '#6EB8F1',
-	        menuIconColor: '#6EB8F1',
-	        scrollbarSize: 20,
+	                loading: null,
+	                showLoadMask: true,
+	                columnMinWidth: 50,
+	                cellPadding: '0px 5px',
+	                headerPadding: '10px 5px',
+	                filterIconColor: '#6EB8F1',
+	                menuIconColor: '#6EB8F1',
+	                scrollbarSize: 20,
 
-	        scrollBy: undefined,
-	        virtualRendering: true,
+	                scrollBy: undefined,
+	                virtualRendering: true,
 
-	        styleAlternateRowsCls: 'z-style-alternate',
-	        withColumnMenuCls: 'z-with-column-menu',
-	        cellEllipsisCls: 'z-cell-ellipsis',
-	        defaultClassName: 'react-datagrid',
+	                styleAlternateRowsCls: 'z-style-alternate',
+	                withColumnMenuCls: 'z-with-column-menu',
+	                cellEllipsisCls: 'z-cell-ellipsis',
+	                defaultClassName: 'react-datagrid',
 
-	        withColumnMenu: true,
-	        sortable: true,
+	                withColumnMenu: true,
+	                sortable: true,
 
-	        filterable: null,
-	        resizableColumns: null,
-	        reorderColumns: null,
+	                filterable: null,
+	                resizableColumns: null,
+	                reorderColumns: null,
 
-	        emptyCls: 'z-empty',
-	        emptyTextStyle: null,
-	        emptyWrapperStyle: null,
+	                emptyCls: 'z-empty',
+	                emptyTextStyle: null,
+	                emptyWrapperStyle: null,
 
-	        loadMaskOverHeader: true,
+	                loadMaskOverHeader: true,
 
-	        showCellBordersCls: 'z-cell-borders',
-	        showCellBorders: false,
-	        styleAlternateRows: true,
-	        cellEllipsis: true,
-	        rowHeight: 31,
+	                showCellBordersCls: 'z-cell-borders',
+	                showCellBorders: false,
+	                styleAlternateRows: true,
+	                cellEllipsis: true,
+	                rowHeight: 31,
 
-	        groupNestingWidth: 20,
+	                groupNestingWidth: 20,
 
-	        defaultStyle: {
-	            position: 'relative'
-	        }
-	    };
+	                defaultStyle: {
+	                        position: 'relative'
+	                }
+	        };
 	};
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
