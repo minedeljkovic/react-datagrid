@@ -63,6 +63,7 @@
     "webpack-dev-server": "^1.9.0"
   },
   "dependencies": {
+    "@minedeljkovic/react-virtual-scroller": "^2.0.1",
     "clone": "^1.0.2",
     "css-utils": "^1.0.0",
     "drag-helper": "^1.2.3",
@@ -79,7 +80,6 @@
     "react-menus": "^2.0.4",
     "react-simple-toolbar": "^1.0.5",
     "react-style-normalizer": "^1.2.8",
-    "react-virtual-scroller": "^2.0.0",
     "region": "^2.1.2",
     "region-align": "^2.1.2",
     "ustring": "^1.4.1",

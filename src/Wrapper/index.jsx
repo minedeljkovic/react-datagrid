@@ -2,7 +2,7 @@
 
 var React    = require('react')
 var assign   = require('object-assign')
-var Scroller = require('react-virtual-scroller')
+var Scroller = require('@minedeljkovic/react-virtual-scroller')
 
 function emptyFn(){}
 
