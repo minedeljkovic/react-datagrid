@@ -133,12 +133,15 @@ var Cell = React.createClass({
                             props.renderCell(contentProps, text, props):
                             React.DOM.div(contentProps, text)
 
-        var renderProps = assign({}, props)
-
-        delete renderProps.data
-
         return (
-            <div style={props.style} className={props.className}>
+            <div
+                style={props.style}
+                className={props.className}
+                onMouseDown={props.onMouseDown}
+                onMouseOut={props.onMouseOut}
+                onMouseOver={props.onMouseOver}
+                onMouseUp={props.onMouseUp}
+            >
                 {content}
                 {props.children}
             </div>
