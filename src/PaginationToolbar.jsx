@@ -16,33 +16,38 @@ function sortAsc(a, b){
 function emptyFn(){}
 
 function gotoPrev(props){
-	return <svg version="1.1" viewBox="0 0 2 3" {...props}>
+	const { mouseOver, disabledStyle, overStyle, ...restProps } = props;
+	return <svg version="1.1" viewBox="0 0 2 3" {...restProps}>
 		<polygon points="2,0 2,3 0,1.5 " />
 	</svg>
 }
 
 function gotoNext(props){
-	return <svg version="1.1" viewBox="0 0 2 3" {...props}>
+	const { mouseOver, disabledStyle, overStyle, ...restProps } = props;
+	return <svg version="1.1" viewBox="0 0 2 3" {...restProps}>
 		<polygon points="0,0 2,1.5 0,3" />
 	</svg>
 }
 
 function gotoFirst(props){
-	return <svg version="1.1" viewBox="0 0 3 3" {...props}>
+	const { mouseOver, disabledStyle, overStyle, ...restProps } = props;
+	return <svg version="1.1" viewBox="0 0 3 3" {...restProps}>
 		<polygon points="3,0 3,3 1,1.5" />
 		<rect height="3" width="0.95" y="0" x="0" />
 	</svg>
 }
 
 function gotoLast(props){
-	return <svg version="1.1" viewBox="0 0 3 3" {...props}>
+	const { mouseOver, disabledStyle, overStyle, ...restProps } = props;
+	return <svg version="1.1" viewBox="0 0 3 3" {...restProps}>
 		<polygon points="0,0 0,3 2,1.5" />
 		<rect height="3" width="0.95" y="0" x="2" />
 	</svg>
 }
 
 function refresh(props){
-	return <svg version="1.1" x="0px" y="0px" viewBox="0 0 487.23 487.23" {...props}>
+	const { mouseOver, disabledStyle, overStyle, ...restProps } = props;
+	return <svg version="1.1" x="0px" y="0px" viewBox="0 0 487.23 487.23" {...restProps}>
 		<g>
 			<path d="M55.323,203.641c15.664,0,29.813-9.405,35.872-23.854c25.017-59.604,83.842-101.61,152.42-101.61
 	        	c37.797,0,72.449,12.955,100.23,34.442l-21.775,3.371c-7.438,1.153-13.224,7.054-14.232,14.512
