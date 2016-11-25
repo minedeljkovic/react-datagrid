@@ -78,7 +78,7 @@
     "react-class": "^1.2.4",
     "react-load-mask": "https://github.com/minedeljkovic/react-load-mask/tarball/70cf4d527599d943f8af3994c73c610446f49e98",
     "react-menus": "^2.0.5",
-    "react-simple-toolbar": "^1.0.5",
+    "react-simple-toolbar": "https://github.com/minedeljkovic/react-simple-toolbar/tarball/844fccf82b1020e3596bad7f43c5c66a40a157af",
     "react-style-normalizer": "^1.2.8",
     "react-virtual-scroller": "https://github.com/minedeljkovic/react-virtual-scroller/tarball/3cf01c01070e30813a099b226c2f9b048249683f",
     "region": "^2.1.2",
