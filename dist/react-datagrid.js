@@ -26297,7 +26297,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// this.prepareContent(props)
 
-			return React.createElement("div", React.__spread({},  props))
+			return (
+				React.createElement("div", {
+					children: props.children, 
+					className: props.className, 
+					style: props.style}
+				)
+			)
 		},
 
 		prepareContent: function(props){
@@ -27003,7 +27009,13 @@ return /******/ (function(modules) { // webpackBootstrap
 		render: function(){
 			var props = this.prepareProps(this.props)
 
-			return React.createElement("div", React.__spread({},  props))
+			return (
+				React.createElement("div", {
+					children: props.children, 
+					className: props.className, 
+					style: props.style}
+				)
+			);
 		},
 
 
