@@ -25678,6 +25678,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactDom = __webpack_require__(1);
 
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 	var React = __webpack_require__(177);
 	var ReactDOM = __webpack_require__(1);
 	var assign = __webpack_require__(23);
@@ -25693,43 +25695,68 @@ return /******/ (function(modules) { // webpackBootstrap
 	function emptyFn() {}
 
 	function gotoPrev(props) {
+		var mouseOver = props.mouseOver,
+		    disabledStyle = props.disabledStyle,
+		    overStyle = props.overStyle,
+		    restProps = _objectWithoutProperties(props, ['mouseOver', 'disabledStyle', 'overStyle']);
+
 		return React.createElement(
 			'svg',
-			_extends({ version: '1.1', viewBox: '0 0 2 3' }, props),
+			_extends({ version: '1.1', viewBox: '0 0 2 3' }, restProps),
 			React.createElement('polygon', { points: '2,0 2,3 0,1.5 ' })
 		);
 	}
 
 	function gotoNext(props) {
+		var mouseOver = props.mouseOver,
+		    disabledStyle = props.disabledStyle,
+		    overStyle = props.overStyle,
+		    restProps = _objectWithoutProperties(props, ['mouseOver', 'disabledStyle', 'overStyle']);
+
 		return React.createElement(
 			'svg',
-			_extends({ version: '1.1', viewBox: '0 0 2 3' }, props),
+			_extends({ version: '1.1', viewBox: '0 0 2 3' }, restProps),
 			React.createElement('polygon', { points: '0,0 2,1.5 0,3' })
 		);
 	}
 
 	function gotoFirst(props) {
+		var mouseOver = props.mouseOver,
+		    disabledStyle = props.disabledStyle,
+		    overStyle = props.overStyle,
+		    restProps = _objectWithoutProperties(props, ['mouseOver', 'disabledStyle', 'overStyle']);
+
 		return React.createElement(
 			'svg',
-			_extends({ version: '1.1', viewBox: '0 0 3 3' }, props),
+			_extends({ version: '1.1', viewBox: '0 0 3 3' }, restProps),
 			React.createElement('polygon', { points: '3,0 3,3 1,1.5' }),
 			React.createElement('rect', { height: '3', width: '0.95', y: '0', x: '0' })
 		);
 	}
 
 	function gotoLast(props) {
+		var mouseOver = props.mouseOver,
+		    disabledStyle = props.disabledStyle,
+		    overStyle = props.overStyle,
+		    restProps = _objectWithoutProperties(props, ['mouseOver', 'disabledStyle', 'overStyle']);
+
 		return React.createElement(
 			'svg',
-			_extends({ version: '1.1', viewBox: '0 0 3 3' }, props),
+			_extends({ version: '1.1', viewBox: '0 0 3 3' }, restProps),
 			React.createElement('polygon', { points: '0,0 0,3 2,1.5' }),
 			React.createElement('rect', { height: '3', width: '0.95', y: '0', x: '2' })
 		);
 	}
 
 	function refresh(props) {
+		var mouseOver = props.mouseOver,
+		    disabledStyle = props.disabledStyle,
+		    overStyle = props.overStyle,
+		    restProps = _objectWithoutProperties(props, ['mouseOver', 'disabledStyle', 'overStyle']);
+
 		return React.createElement(
 			'svg',
-			_extends({ version: '1.1', x: '0px', y: '0px', viewBox: '0 0 487.23 487.23' }, props),
+			_extends({ version: '1.1', x: '0px', y: '0px', viewBox: '0 0 487.23 487.23' }, restProps),
 			React.createElement(
 				'g',
 				null,
