@@ -295,7 +295,6 @@ module.exports = React.createClass({
 				flex       : 1,
 				minWidth   : 40
 			}),
-			page: props.page,
 			onChange: this.handleInputChange
 		}, otherProps)
 

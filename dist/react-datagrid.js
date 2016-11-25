@@ -25985,7 +25985,6 @@ return /******/ (function(modules) { // webpackBootstrap
 					flex: 1,
 					minWidth: 40
 				}),
-				page: props.page,
 				onChange: this.handleInputChange
 			}, otherProps);
 
