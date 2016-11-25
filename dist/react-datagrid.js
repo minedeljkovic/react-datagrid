@@ -26060,11 +26060,11 @@ return /******/ (function(modules) { // webpackBootstrap
 				React.createElement(
 					'span',
 					{ style: textStyle },
-					'Displaying ',
+					'\u041F\u0440\u0438\u043A\u0430\u0437\u0430\u043D\u043E ',
 					start,
 					' - ',
 					end,
-					' of ',
+					' \u043E\u0434 ',
 					props.dataSourceCount || 1,
 					'.'
 				),
@@ -26078,7 +26078,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				return React.createElement(
 					'div',
 					null,
-					'Page size ',
+					'\u041F\u043E \u0441\u0442\u0440\u0430\u043D\u0438 ',
 					this.renderSelect(props)
 				);
 			}
@@ -26114,9 +26114,9 @@ return /******/ (function(modules) { // webpackBootstrap
 					this.icon('gotoFirst', props),
 					this.icon('gotoPrev', props),
 					sep,
-					'Page ',
+					'\u0421\u0442\u0440\u0430\u043D\u0430 ',
 					this.renderInput(props),
-					' of',
+					' \u043E\u0434',
 					WHITESPACE,
 					props.maxPage,
 					'.',

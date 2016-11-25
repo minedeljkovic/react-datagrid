@@ -361,7 +361,7 @@ module.exports = React.createClass({
 		var textStyle = {display: 'inline-block', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'}
 
 		return <div style={normalize({display: 'flex', justifyContent: 'flex-end', alignItems: 'center'})}>
-			<span style={textStyle}>Displaying {start} - {end} of {props.dataSourceCount || 1}.</span>
+			<span style={textStyle}>Приказано {start} - {end} од {props.dataSourceCount || 1}.</span>
 			{sep}{refreshIcon}
 		</div>
 	},
@@ -369,7 +369,7 @@ module.exports = React.createClass({
 	renderPageSize: function(props) {
 		if (props.showPageSize){
 			return <div>
-				Page size {this.renderSelect(props)}
+				По страни {this.renderSelect(props)}
 			</div>
 		}
 	},
@@ -401,7 +401,7 @@ module.exports = React.createClass({
 				{this.icon('gotoPrev', props)}
 
 				{sep}
-				Page {this.renderInput(props)} of{WHITESPACE}{props.maxPage}.
+				Страна {this.renderInput(props)} од{WHITESPACE}{props.maxPage}.
 				{sep}
 				{this.icon('gotoNext', props)}
 				{this.icon('gotoLast', props)}
