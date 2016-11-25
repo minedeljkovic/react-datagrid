@@ -33329,13 +33329,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        var content = props.renderCell ? props.renderCell(contentProps, text, props) : React.DOM.div(contentProps, text);
 
-	        var renderProps = assign({}, props);
-
-	        delete renderProps.data;
-
 	        return React.createElement(
 	            'div',
-	            { style: props.style, className: props.className },
+	            {
+	                style: props.style,
+	                className: props.className,
+	                onMouseDown: props.onMouseDown,
+	                onMouseOut: props.onMouseOut,
+	                onMouseOver: props.onMouseOver,
+	                onMouseUp: props.onMouseUp
+	            },
 	            content,
 	            props.children
 	        );
@@ -33963,7 +33966,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return React.createElement(
 	      'div',
-	      { className: props.className, style: props.style },
+	      {
+	        className: props.className,
+	        style: props.style,
+	        onClick: props.onClick,
+	        onContextMenu: props.onContextMenu,
+	        onMouseEnter: props.onMouseEnter,
+	        onMouseLeave: props.onMouseLeave,
+	        selected: props.selected
+	      },
 	      cells
 	    );
 	  },
