@@ -33966,6 +33966,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 	var React = __webpack_require__(177);
 	var Region = __webpack_require__(181);
 	var assign = __webpack_require__(23);
@@ -34002,17 +34004,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var props = this.prepareProps(this.props);
 	    var cells = props.children || props.columns.map(this.renderCell.bind(this, this.props));
 
+	    var index = props.index,
+	        cellFactory = props.cellFactory,
+	        renderCell = props.renderCell,
+	        renderText = props.renderText,
+	        rowHeight = props.rowHeight,
+	        minWidth = props.minWidth,
+	        columns = props.columns,
+	        rowContextMenu = props.rowContextMenu,
+	        showMenu = props.showMenu,
+	        _onClick = props._onClick,
+	        defaultStyle = props.defaultStyle,
+	        restProps = _objectWithoutProperties(props, ['index', 'cellFactory', 'renderCell', 'renderText', 'rowHeight', 'minWidth', 'columns', 'rowContextMenu', 'showMenu', '_onClick', 'defaultStyle']);
+
 	    return React.createElement(
 	      'div',
-	      {
-	        className: props.className,
-	        style: props.style,
-	        onClick: props.onClick,
-	        onContextMenu: props.onContextMenu,
-	        onMouseEnter: props.onMouseEnter,
-	        onMouseLeave: props.onMouseLeave,
-	        selected: props.selected
-	      },
+	      restProps,
 	      cells
 	    );
 	  },
